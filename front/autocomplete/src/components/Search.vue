@@ -1,34 +1,34 @@
 <template>
+  <div class="search-container">
+    <!-- Icône de loupe -->
+    <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 18a8 8 0 100-16 8 8 0 000 16zM21 21l-4.35-4.35" />
+    </svg>
 
-    <div class="search-container">
-      <!-- Icône de loupe -->
-      <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 18a8 8 0 100-16 8 8 0 000 16zM21 21l-4.35-4.35" />
-      </svg>
+    <!-- Barre de recherche -->
+    <input 
+      v-model="query" 
+      @input="fetchSuggestions" 
+      @keydown="handleKeyDown"
+      placeholder="Rechercher un nom ou prénom" 
+    />
 
-      <!-- Barre de recherche -->
-      <input 
-        v-model="query" 
-        @input="fetchSuggestions" 
-        @keydown="handleKeyDown"
-        placeholder="Rechercher un nom ou prénom" 
-      />
-
-      <!-- Liste des suggestions -->
-      <ul v-if="suggestions.length" class="suggestions-list">
-        <li 
-          v-for="(suggestion, index) in suggestions" 
-          :key="index"
-          @click="selectSuggestion(suggestion)"
-          :class="{ 'highlighted': index === selectedIndex }"
-          ref="suggestionItems"
-          style="cursor: pointer"
-        >
-          {{ suggestion._source.first_name }} {{ suggestion._source.name }}
-        </li>
-      </ul>
+    <!-- Liste des suggestions -->
+    <ul v-if="suggestions.length" class="suggestions-list">
+      <li 
+        v-for="(suggestion, index) in suggestions" 
+        :key="index"
+        @click="selectSuggestion(suggestion)"
+        :class="{ 'highlighted': index === selectedIndex }"
+        ref="suggestionItems"
+        style="cursor: pointer"
+      >
+        {{ suggestion._source.first_name }} {{ suggestion._source.name }}
+      </li>
+    </ul>
 
   </div>
+
 </template>
 
 <script>

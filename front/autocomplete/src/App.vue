@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import Search from './components/Search.vue'
 import ClientInfo from './components/ClientInfo.vue'
+
 import { ref } from 'vue'
 
 const selectedClient = ref(null);
@@ -24,6 +25,7 @@ function onClientSelected(client) {
      <div class="client-infos">
     <ClientInfo v-if="selectedClient" :client="selectedClient" />
     </div>
+    
   </main>
 </template>
 
@@ -35,7 +37,8 @@ function onClientSelected(client) {
   position: relative;
   width: 100%;
   display: flex;
-  justify-content: center;
+  justify-content: left;
+  max-width: 600px;
   margin-bottom: 60px; /* Espace pour les résultats en dessous */
 }
 
@@ -43,7 +46,14 @@ function onClientSelected(client) {
   position: relative;
   width: 100%;
   display: flex;
-  justify-content: center;
+  justify-content: left;
+  margin-bottom: 20px;
+}
+
+.test {
+  position: relative;
+  width: 100%;
+  justify-content: left;
   margin-bottom: 20px;
 }
 
