@@ -15,16 +15,22 @@ function onClientSelected(client) {
 
 <template>
   <main>
+    <v-app>
+      <v-container>
     
-    <!-- La barre de recherche -->
-    <div class="search-wrapper">
-      <Search @client-selected="onClientSelected" />
-    </div>
+        <!-- La barre de recherche -->
+        <div class="search-wrapper">
+          <Search @client-selected="onClientSelected" />
+        </div>
 
-    <!-- Composant pour afficher les résultats -->
-     <div class="client-infos">
-    <ClientInfo v-if="selectedClient" :client="selectedClient" />
-    </div>
+        <!-- Composant pour afficher les résultats -->
+        <div class="client-infos">
+        <ClientInfo v-if="selectedClient" :client="selectedClient" />
+        </div>
+
+      </v-container>
+    </v-app>
+
     
   </main>
 </template>
@@ -34,18 +40,14 @@ function onClientSelected(client) {
 
 /* Assure que la barre de recherche reste en haut */
 .search-wrapper {
-  position: relative;
   width: 100%;
-  display: flex;
   justify-content: left;
   max-width: 600px;
   margin-bottom: 60px; /* Espace pour les résultats en dessous */
 }
 
 .client-infos {
-  position: relative;
   width: 100%;
-  display: flex;
   justify-content: left;
   margin-bottom: 20px;
 }

@@ -1,34 +1,37 @@
 <template>
-  <div class="search-container">
-    <!-- Icône de loupe -->
-    <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 18a8 8 0 100-16 8 8 0 000 16zM21 21l-4.35-4.35" />
-    </svg>
+    <v-container>
+      <div class="search-container">
 
-    <!-- Barre de recherche -->
-    <input 
-      v-model="query" 
-      @input="fetchSuggestions" 
-      @keydown="handleKeyDown"
-      placeholder="Rechercher un nom ou prénom" 
-    />
+        <!-- Barre de recherche -->
 
-    <!-- Liste des suggestions -->
-    <ul v-if="suggestions.length" class="suggestions-list">
-      <li 
-        v-for="(suggestion, index) in suggestions" 
-        :key="index"
-        @click="selectSuggestion(suggestion)"
-        :class="{ 'highlighted': index === selectedIndex }"
-        ref="suggestionItems"
-        style="cursor: pointer"
-      >
-        {{ suggestion._source.first_name }} {{ suggestion._source.name }}
-      </li>
-    </ul>
+          <v-text-field
+          v-model="query" 
+          @input="fetchSuggestions" 
+          @keydown="handleKeyDown"
+          clearable
+          label="Nom ou prénom"
+          prepend-inner-icon="mdi-magnify"
+          hide-details
+          variant="underlined"
+          ></v-text-field>
 
-  </div>
 
+        <!-- Liste des suggestions -->
+        <ul v-if="suggestions.length" class="suggestions-list">
+          <li 
+            v-for="(suggestion, index) in suggestions" 
+            :key="index"
+            @click="selectSuggestion(suggestion)"
+            :class="{ 'highlighted': index === selectedIndex }"
+            ref="suggestionItems"
+            style="cursor: pointer"
+          >
+            {{ suggestion._source.first_name }} {{ suggestion._source.name }}
+          </li>
+        </ul>
+
+      </div>
+    </v-container>
 </template>
 
 <script>
@@ -159,22 +162,6 @@ export default {
   color: #999;
 }
 
-input {
-  padding-left: 40px;  /* Espace pour l'icône */
-  padding-right: 10px;
-  padding-top: 10px;
-  padding-bottom: 10px;
-  width: 100%;  /* Prend toute la largeur du conteneur parent */
-  border: none;
-  border-bottom: 2px solid #ccc;
-  outline: none;
-  font-size: 16px;
-}
-
-input:focus {
-  border-bottom: 2px solid #5a5a5a;
-}
-
 .suggestions-list {
   position: absolute;  /* Position absolue pour placer la liste sous l'input */
   top: 100%;
@@ -186,7 +173,7 @@ input:focus {
   overflow-y: auto;
   z-index: 10;
   padding: 0;
-  margin: 5px 0 0 0;
+  margin: 0 0 0 0;
   list-style: none;
 }
 
