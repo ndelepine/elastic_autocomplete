@@ -2,33 +2,32 @@
 
 ## Description
 
-Ce projet contient un backend pour envoyer des fausses données clients à Elasticsearch à l'aide de `Faker` en Python, ainsi qu'un frontend en Vue.js (à développer) pour requêter les données en mode autocomplete via une interface utilisateur.
+This project contains a backend to send fake customer data to Elasticsearch using `Faker` in Python, as well as a frontend in Vue.js (to be developed) to query the data in autocomplete mode via a user interface.
 
-## Prérequis
+## Prerequisites
 
-- Docker et Docker Compose
+- Docker and Docker Compose
 - Python 3.x
-- Vue.js (si le frontend est implémenté)
+- Vue.js (if the frontend is implemented)
 
 ## Installation
 
-1. Clonez le projet :
+1. Clone the project:
    ```bash
-   git clone https://github.com/moncompte/my-elasticsearch-project.git
+   git clone https://github.com/myaccount/my-elasticsearch-project.git
    cd my-elasticsearch-project
-   ```
 
-2. Installez l'environnement virtuel :
+2. Set up the virtual environment:
    ```bash
    make venv
    ```
 
-3. Lancez le service elasticsearch avec Docker Compose :
+3. Start the Elasticsearch service with Docker Compose:
    ```bash
    cd backend
    docker-compose up -d
    ```
-4. Lancez le script Python pour indexer des données clients :
+4. Run the Python script to index fake customer data (created with Faker):
    ```bash
    python index_faker_data.py
    ````
