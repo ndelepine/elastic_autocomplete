@@ -2,21 +2,22 @@
     <v-container>
       <div class="search-container">
 
-        <!-- Barre de recherche -->
+        <!-- Search bar -->
 
           <v-text-field
           v-model="query" 
           @input="fetchSuggestions" 
           @keydown="handleKeyDown"
           clearable
-          label="Nom ou prénom"
+          label="Client name"
+          placeholder="Name or first name"
           prepend-inner-icon="mdi-magnify"
           hide-details
           variant="underlined"
           ></v-text-field>
 
 
-        <!-- Liste des suggestions -->
+        <!-- Suggestions list -->
         <ul v-if="suggestions.length" class="suggestions-list">
           <li 
             v-for="(suggestion, index) in suggestions" 
@@ -42,14 +43,15 @@ export default {
     return {
       query: '',
       suggestions: [],
-      selectedIndex: -1,  // Indice de l'élément actuellement surligné
+      selectedIndex: -1,  // Index of the current selected suggestion
     };
   },
   methods: {
-    // Fonction pour récupérer les suggestions basées sur la saisie
+    // Fonction to ges the list of suggestions based on the input
     fetchSuggestions() {
       this.selectedIndex =  -1
       if (this.query.length > 2) {
+        // Use axios to query ElasticSearch
         axios
           .post(`/api/clients/_search`, {
             suggest: {
@@ -90,22 +92,22 @@ export default {
       }
     },
 
-    // Séléction des suggestions avec le clavier
+    // Navigate through suggestions throught the keyboard
     handleKeyDown(event) {
       if (event.key === 'ArrowDown') {
-        // Naviguer vers le bas dans la liste des suggestions
+        // Go down in the suggestion list
         if (this.selectedIndex < this.suggestions.length - 1) {
           this.selectedIndex++;
-          this.scrollToView(this.selectedIndex); // Faire défiler jusqu'à l'élément surligné
+          this.scrollToView(this.selectedIndex); // Scroll to reach the selected element
         }
       } else if (event.key === 'ArrowUp') {
-        // Naviguer vers le haut dans la liste des suggestions
+        // Go up in the suggestion list
         if (this.selectedIndex > 0) {
           this.selectedIndex--;
-          this.scrollToView(this.selectedIndex); // Faire défiler jusqu'à l'élément surligné
+          this.scrollToView(this.selectedIndex); // Scroll to reach the selected element
         }
       } else if (event.key === 'Enter') {
-        // Sélectionner l'élément actuellement surligné avec la touche Entrée
+        // Select the element with the Enter key
         if (this.selectedIndex >= 0) {
           this.selectSuggestion(this.suggestions[this.selectedIndex]);
         }
@@ -113,29 +115,29 @@ export default {
     },
 
     scrollToView(index) {
-      // Récupérer l'élément correspondant à l'index et faire défiler jusqu'à lui
+      // Get the element with the index and scroll to it
       const element = this.$refs.suggestionItems[index];
       if (element) {
         element.scrollIntoView({
-          block: 'nearest',  // Le mode 'nearest' s'assure que l'élément est entièrement visible
-          behavior: 'smooth'  // Animation de défilement douce
+          block: 'nearest',  // The mode 'nearest' assure that the element is completely visible
+          behavior: 'smooth'  // Smooth animation
         });
       }
     },
 
-    // Sélection d'une suggestion et récupération des infos du client
+    // Select a suggestion, and get client informations
     selectSuggestion(suggestion) {
       axios.get(`/api/clients/_doc/${suggestion._id}`)
         .then(response => {
-          const client = response.data._source;  // Récupère les données du client
-          // Emet un événement avec le client sélectionné
+          const client = response.data._source;  // Get client infos
+          // Emit a "client-selected" event to pass it to the ClientInfo component
           this.$emit('client-selected', client);
           this.suggestions = [];
           this.query = `${ response.data._source.first_name } ${ response.data._source.name}`
           this.selectedIndex =  -1
         })
         .catch(error => {
-          console.error('Erreur lors de la récupération des informations du client :', error);
+          console.error('Error while getting client informations :', error);
         });
     }
   }
@@ -146,9 +148,9 @@ export default {
 
 .search-container {
   position: relative;
-  width: 100%;  /* Prend toute la largeur du wrapper */
-  max-width: 600px;  /* Limite la largeur maximale */
-  margin-top: 20px;  /* Marge avec le haut */
+  width: 100%;
+  max-width: 600px;
+  margin-top: 20px;
 
 }
 
@@ -163,10 +165,10 @@ export default {
 }
 
 .suggestions-list {
-  position: absolute;  /* Position absolue pour placer la liste sous l'input */
+  position: absolute;
   top: 100%;
   left: 0;
-  width: 100%;  /* Prend toute la largeur du conteneur parent (search-container) */
+  width: 100%;
   background-color: white;
   border: 1px solid #ccc;
   max-height: 200px;

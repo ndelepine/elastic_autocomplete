@@ -1,13 +1,14 @@
 <script setup lang="ts">
-import Search from './components/Search.vue'
-import ClientInfo from './components/ClientInfo.vue'
+import ClientInfo from './components/ClientInfo.vue';
+import NavBar from './components/NavBar.vue';
+import Search from './components/Search.vue';
 
-import { ref } from 'vue'
+import { ref } from 'vue';
 
 const selectedClient = ref(null);
 
 function onClientSelected(client) {
-  // Assigne les informations du client à selectedClient.value
+  // Assign client informations to selectedClient.value
   selectedClient.value = client;
 }
 
@@ -18,12 +19,15 @@ function onClientSelected(client) {
     <v-app>
       <v-container>
     
-        <!-- La barre de recherche -->
+        <div class="navigation-bar">
+          <NavBar />
+        </div>
+
+
         <div class="search-wrapper">
           <Search @client-selected="onClientSelected" />
         </div>
 
-        <!-- Composant pour afficher les résultats -->
         <div class="client-infos">
         <ClientInfo v-if="selectedClient" :client="selectedClient" />
         </div>
@@ -38,12 +42,16 @@ function onClientSelected(client) {
 
 <style scoped>
 
-/* Assure que la barre de recherche reste en haut */
+
+.navigation-bar {
+  margin-bottom: 60px;
+}
+
 .search-wrapper {
   width: 100%;
   justify-content: left;
   max-width: 600px;
-  margin-bottom: 60px; /* Espace pour les résultats en dessous */
+  margin-bottom: 60px;
 }
 
 .client-infos {

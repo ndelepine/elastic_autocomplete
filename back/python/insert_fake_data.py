@@ -1,6 +1,6 @@
 from elasticsearch import Elasticsearch, helpers
 from faker import Faker
-
+def
 # Connect to Elasticsearch
 es = Elasticsearch([{"host": "localhost", "port": 9200, "scheme": "http"}])
 
@@ -23,17 +23,17 @@ def create_index_with_mapping(es_instance: Elasticsearch, index_name):
         "mappings": {
             "properties": {
                 "name": {
-                    "type": "completion"  # Enable autocomplete
+                    "type": "completion",  # Enable autocomplete
                 },
                 "first_name": {
-                    "type": "completion"  # Enable autocomplete
+                    "type": "completion",  # Enable autocomplete
                 },
                 "email": {"type": "keyword"},
                 "address": {"type": "text"},
                 "created_at": {"type": "date"},
                 "job": {"type": "text"},
-            }
-        }
+            },
+        },
     }
 
     # Create the index with the mapping
@@ -63,7 +63,9 @@ def generate_bulk_data(index_name, num_docs):
 def bulk_index_data(es_instance, index_name, num_docs, chunk_size=500):
     # Use the helpers.bulk function to send data in chunks
     helpers.bulk(
-        es_instance, generate_bulk_data(index_name, num_docs), chunk_size=chunk_size
+        es_instance,
+        generate_bulk_data(index_name, num_docs),
+        chunk_size=chunk_size,
     )
 
 
